@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "U:\\PROJECTS\\LibrAxon\\AxionControl.csproj": {}
+    "u:\\PROJECTS\\LibrAxon\\AxionControl.csproj": {}
   },
   "projects": {
-    "U:\\PROJECTS\\LibrAxon\\AxionControl.csproj": {
+    "u:\\PROJECTS\\LibrAxon\\AxionControl.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "U:\\PROJECTS\\LibrAxon\\AxionControl.csproj",
+        "projectUniqueName": "u:\\PROJECTS\\LibrAxon\\AxionControl.csproj",
         "projectName": "AxionControl",
-        "projectPath": "U:\\PROJECTS\\LibrAxon\\AxionControl.csproj",
+        "projectPath": "u:\\PROJECTS\\LibrAxon\\AxionControl.csproj",
         "packagesPath": "C:\\Users\\dgguser\\.nuget\\packages\\",
-        "outputPath": "U:\\PROJECTS\\LibrAxon\\obj\\",
+        "outputPath": "u:\\PROJECTS\\LibrAxon\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dgguser\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -63,19 +63,19 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.23, 8.0.23]"
+              "version": "[8.0.24, 8.0.24]"
             },
             {
               "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[8.0.23, 8.0.23]"
+              "version": "[8.0.24, 8.0.24]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.23, 8.0.23]"
+              "version": "[8.0.24, 8.0.24]"
             },
             {
               "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[8.0.23, 8.0.23]"
+              "version": "[8.0.24, 8.0.24]"
             }
           ],
           "frameworkReferences": {
@@ -86,7 +86,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

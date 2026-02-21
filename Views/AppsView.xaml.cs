@@ -9,7 +9,7 @@ namespace AxionControl.Views
 {
     public partial class AppsView : UserControl
     {
-        // Program útvonalak dictionary-ben
+        // Program útvonalak szótárban - Központi adatforrás
         private readonly Dictionary<string, string> programPaths = new Dictionary<string, string>
         {
             { "StartAllBack", @"C:\LibrAxon\ADD\StartAllBack\sab_setup.exe" },
@@ -39,119 +39,46 @@ namespace AxionControl.Views
             CheckButtonAvailability();
         }
 
+        /// <summary>
+        /// Végigmegy a szótáron és letiltja azokat a gombokat, amikhez nem található fájl.
+        /// Feltételezi, hogy a gombok neve "btn" + a szótár kulcsa (pl. btnStartAllBack).
+        /// </summary>
         private void CheckButtonAvailability()
         {
-            SetButtonState("btnStartAllBack", "StartAllBack");
-            SetButtonState("btnMediaPlayerClassic", "MediaPlayerClassic");
-            SetButtonState("btnWinampMagyar", "WinampMagyar");
-            SetButtonState("btnMedia2HB", "Media2HB");
-            SetButtonState("btnVideoDownloader", "VideoDownloader");
-            SetButtonState("btnIphone3Utools", "Iphone3Utools");
-            SetButtonState("btnFileUnlocker", "FileUnlocker");
-            SetButtonState("btnEdgeInstallProtected", "EdgeInstallProtected");
-            SetButtonState("btnEdgeInstallNative", "EdgeInstallNative");
-            SetButtonState("btnEdgeRemove", "EdgeRemove");
-            SetButtonState("btnLibreOffice", "LibreOffice");
-            SetButtonState("btnMixxxDJ", "MixxxDJ");
-            SetButtonState("btnPendriveRepair", "PendriveRepair");
-            SetButtonState("btnOneDriveEnable", "OneDriveEnable");
-        }
-
-        private void SetButtonState(string buttonName, string programKey)
-        {
-            var button = this.FindName(buttonName) as Button;
-            if (button != null && programPaths.ContainsKey(programKey))
+            foreach (var item in programPaths)
             {
-                button.IsEnabled = File.Exists(programPaths[programKey]);
+                if (this.FindName("btn" + item.Key) is Button button)
+                {
+                    button.IsEnabled = File.Exists(item.Value);
+                }
             }
         }
 
-        private void StartAllBack_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Közös eseménykezelő az összes gombhoz.
+        /// A XAML-ben mindegyik gombra ezt állítsd be: Click="AppButton_Click"
+        /// </summary>
+        private void AppButton_Click(object sender, RoutedEventArgs e)
         {
-            LaunchProgram("StartAllBack");
+            if (sender is Button btn)
+            {
+                // Kivesszük a gomb nevéből a "btn" előtagot, hogy megkapjuk a szótár kulcsát
+                string key = btn.Name.Replace("btn", "");
+                LaunchProgram(key);
+            }
         }
 
-        private void MediaPlayerClassic_Click(object sender, RoutedEventArgs e)
-        {
-            LaunchProgram("MediaPlayerClassic");
-        }
-
-        private void WinampMagyar_Click(object sender, RoutedEventArgs e)
-        {
-            LaunchProgram("WinampMagyar");
-        }
-
-        private void Media2HB_Click(object sender, RoutedEventArgs e)
-        {
-            LaunchProgram("Media2HB");
-        }
-
-        private void VideoDownloader_Click(object sender, RoutedEventArgs e)
-        {
-            LaunchProgram("VideoDownloader");
-        }
-
-        private void Iphone3Utools_Click(object sender, RoutedEventArgs e)
-        {
-            LaunchProgram("Iphone3Utools");
-        }
-
-        private void FileUnlocker_Click(object sender, RoutedEventArgs e)
-        {
-            LaunchProgram("FileUnlocker");
-        }
-
-        private void EdgeInstallProtected_Click(object sender, RoutedEventArgs e)
-        {
-            LaunchProgram("EdgeInstallProtected");
-        }
-
-        private void EdgeInstallNative_Click(object sender, RoutedEventArgs e)
-        {
-            LaunchProgram("EdgeInstallNative");
-        }
-
-        private void EdgeRemove_Click(object sender, RoutedEventArgs e)
-        {
-            LaunchProgram("EdgeRemove");
-        }
-
-        private void LibreOffice_Click(object sender, RoutedEventArgs e)
-        {
-            LaunchProgram("LibreOffice");
-        }
-
-        private void MixxxDJ_Click(object sender, RoutedEventArgs e)
-        {
-            LaunchProgram("MixxxDJ");
-        }
-
-        private void PendriveRepair_Click(object sender, RoutedEventArgs e)
-        {
-            LaunchProgram("PendriveRepair");
-        }
-
-        private void OneDriveEnable_Click(object sender, RoutedEventArgs e)
-        {
-            LaunchProgram("OneDriveEnable");
-        }
-
-        private void LaunchProgram(string programKey)
+        private void LaunchProgram(string key)
         {
             try
             {
-                if (programPaths.ContainsKey(programKey))
+                if (programPaths.TryGetValue(key, out string path) && File.Exists(path))
                 {
-                    string programPath = programPaths[programKey];
-                    
-                    if (File.Exists(programPath))
+                    Process.Start(new ProcessStartInfo
                     {
-                        Process.Start(new ProcessStartInfo
-                        {
-                            FileName = programPath,
-                            UseShellExecute = true
-                        });
-                    }
+                        FileName = path,
+                        UseShellExecute = true
+                    });
                 }
             }
             catch (Exception ex)

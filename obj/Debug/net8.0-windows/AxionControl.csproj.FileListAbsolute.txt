@@ -24,6 +24,7 @@ U:\PROJECTS\LibrAxon\obj\Debug\net8.0-windows\AxionControl.GeneratedMSBuildEdito
 U:\PROJECTS\LibrAxon\obj\Debug\net8.0-windows\AxionControl.AssemblyInfoInputs.cache
 U:\PROJECTS\LibrAxon\obj\Debug\net8.0-windows\AxionControl.AssemblyInfo.cs
 U:\PROJECTS\LibrAxon\obj\Debug\net8.0-windows\AxionControl.csproj.CoreCompileInputs.cache
+U:\PROJECTS\LibrAxon\obj\Debug\net8.0-windows\AxionControl.sourcelink.json
 U:\PROJECTS\LibrAxon\obj\Debug\net8.0-windows\AxionCon.5C1733DA.Up2Date
 U:\PROJECTS\LibrAxon\obj\Debug\net8.0-windows\AxionControl.dll
 U:\PROJECTS\LibrAxon\obj\Debug\net8.0-windows\refint\AxionControl.dll

@@ -148,24 +148,24 @@
                     
 					<!-- Bal oldali gombok -->
 					<StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,10,0">
-						<Button x:Name="btnStartAllBack" Content="StartAllBack telepítése" Style="{StaticResource PurpleButtonStyle}" Click="StartAllBack_Click"/>
-						<Button x:Name="btnMediaPlayerClassic" Content="MediaPlayer Classic" Style="{StaticResource PurpleButtonStyle}" Click="MediaPlayerClassic_Click"/>
-						<Button x:Name="btnWinampMagyar" Content="Winamp Magyar" Style="{StaticResource PurpleButtonStyle}" Click="WinampMagyar_Click"/>
-						<Button x:Name="btnMedia2HB" Content="2HB Media Lejátszó" Style="{StaticResource PurpleButtonStyle}" Click="Media2HB_Click"/>
-						<Button x:Name="btnVideoDownloader" Content="Videó Letöltő 4.1.2" Style="{StaticResource PurpleButtonStyle}" Click="VideoDownloader_Click"/>
-						<Button x:Name="btnIphone3Utools" Content="Iphone 3Utools" Style="{StaticResource PurpleButtonStyle}" Click="Iphone3Utools_Click"/>
-						<Button x:Name="btnFileUnlocker" Content="File Unlocker" Style="{StaticResource PurpleButtonStyle}" Click="FileUnlocker_Click"/>
+						<Button x:Name="btnStartAllBack" Content="StartAllBack telepítése" Style="{StaticResource PurpleButtonStyle}" Click="AppButton_Click"/>
+						<Button x:Name="btnMediaPlayerClassic" Content="MediaPlayer Classic" Style="{StaticResource PurpleButtonStyle}" Click="AppButton_Click"/>
+						<Button x:Name="btnWinampMagyar" Content="Winamp Magyar" Style="{StaticResource PurpleButtonStyle}" Click="AppButton_Click"/>
+						<Button x:Name="btnMedia2HB" Content="2HB Media Lejátszó" Style="{StaticResource PurpleButtonStyle}" Click="AppButton_Click"/>
+						<Button x:Name="btnVideoDownloader" Content="Videó Letöltő 4.1.2" Style="{StaticResource PurpleButtonStyle}" Click="AppButton_Click"/>
+						<Button x:Name="btnIphone3Utools" Content="Iphone 3Utools" Style="{StaticResource PurpleButtonStyle}" Click="AppButton_Click"/>
+						<Button x:Name="btnFileUnlocker" Content="File Unlocker" Style="{StaticResource PurpleButtonStyle}" Click="AppButton_Click"/>
 					</StackPanel>
 
 					<!-- Jobb oldali gombok -->
 					<StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0,0,0">
-						<Button x:Name="btnEdgeInstallProtected" Content="MS Edge telepítés (Védett)" Style="{StaticResource PurpleButtonStyle}" Click="EdgeInstallProtected_Click"/>
-						<Button x:Name="btnEdgeInstallNative" Content="MS Edge telepítés (Natív)" Style="{StaticResource PurpleButtonStyle}" Click="EdgeInstallNative_Click"/>
-						<Button x:Name="btnEdgeRemove" Content="Edge Eltávolítása" Style="{StaticResource PurpleButtonStyle}" Click="EdgeRemove_Click"/>
-						<Button x:Name="btnLibreOffice" Content="Libre Office" Style="{StaticResource PurpleButtonStyle}" Click="LibreOffice_Click"/>
-						<Button x:Name="btnMixxxDJ" Content="Mixxx DJ indítása" Style="{StaticResource PurpleButtonStyle}" Click="MixxxDJ_Click"/>
-						<Button x:Name="btnPendriveRepair" Content="Sérült Pendrive Javítása" Style="{StaticResource PurpleButtonStyle}" Click="PendriveRepair_Click"/>
-						<Button x:Name="btnOneDriveEnable" Content="One Drive BE" Style="{StaticResource PurpleButtonStyle}" Click="OneDriveEnable_Click"/>
+						<Button x:Name="btnEdgeInstallProtected" Content="MS Edge telepítés (Védett)" Style="{StaticResource PurpleButtonStyle}" Click="AppButton_Click"/>
+						<Button x:Name="btnEdgeInstallNative" Content="MS Edge telepítés (Natív)" Style="{StaticResource PurpleButtonStyle}" Click="AppButton_Click"/>
+						<Button x:Name="btnEdgeRemove" Content="Edge Eltávolítása" Style="{StaticResource PurpleButtonStyle}" Click="AppButton_Click"/>
+						<Button x:Name="btnLibreOffice" Content="Libre Office" Style="{StaticResource PurpleButtonStyle}" Click="AppButton_Click"/>
+						<Button x:Name="btnMixxxDJ" Content="Mixxx DJ indítása" Style="{StaticResource PurpleButtonStyle}" Click="AppButton_Click"/>
+						<Button x:Name="btnPendriveRepair" Content="Sérült Pendrive Javítása" Style="{StaticResource PurpleButtonStyle}" Click="AppButton_Click"/>
+						<Button x:Name="btnOneDriveEnable" Content="One Drive BE" Style="{StaticResource PurpleButtonStyle}" Click="AppButton_Click"/>
 					</StackPanel>
                 </Grid>
                 

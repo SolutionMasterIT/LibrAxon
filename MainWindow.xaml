@@ -12,11 +12,17 @@
             <MenuItem Header="Programok telepítése" Click="ShowApps"/>
             <MenuItem Header="Illesztő eszközök" Click="ShowDrivers"/>
             <MenuItem Header="Névjegy" Click="ShowAbout"/>
+			<MenuItem
+			  x:Name="DownloadMenuItem" 
+              Header="Csomag frissítése / Letöltése" 
+              Click="ManualDownload_Click" 
+              Visibility="Collapsed"
+			/>
         </Menu>
 		
 		<StatusBar DockPanel.Dock="Bottom" Background="#1a0a0a" BorderBrush="#333" BorderThickness="0,1,0,0">
 			<StatusBarItem HorizontalContentAlignment="Stretch">
-				<Grid Width="880">
+				<Grid>
 					<TextBlock x:Name="StatusTextBlock" Text="Kész" Foreground="#888" Margin="5,0"/>
 					<ProgressBar x:Name="DownloadProgressBar" Height="10" Width="200" 
 								 HorizontalAlignment="Right" VerticalAlignment="Center"
@@ -27,7 +33,10 @@
 		</StatusBar>
 
         <!-- IDE VÁLTUNK TARTALMAT -->
-        <ContentControl x:Name="MainContent"
-                    Background="#111"/>
+        <ContentControl
+			x:Name="MainContent"
+			x:FieldModifier="public"
+            Background="#111"
+		/>
     </DockPanel>
 </Window>

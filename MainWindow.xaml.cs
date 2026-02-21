@@ -1,8 +1,8 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression; // ? Zip kicsomagol·shoz
-using System.Net.Http;       // ? LetˆltÈshez
+using System.IO.Compression; //Zip kicsomagol√°shoz
+using System.Net.Http;       //Let√∂lt√©shez
 using System.Threading.Tasks;
 using System.Windows;
 using AxionControl.Views;
@@ -12,110 +12,175 @@ namespace AxionControl
     public partial class MainWindow : Window
     {
         private const string RootFolder = @"C:\LibrAxon";
-        private const string DownloadUrl = "http://villamgyorspc.hu/downloads/LibrAxon_latest.zip";
+        private const string DownloadUrl = "https://villamgyorspc.hu/downloads/LibrAxon_latest.zip";
         private const string TempZipPath = @"C:\LibrAxon\temp_update.zip";
+        private const string Version = "26.02.21";
 
         public MainWindow()
         {
             InitializeComponent();
             MainContent.Content = new AxionControl.Views.InfoView();
+			
+			this.Title += " " + Version;
             
-            // IndÌt·s ut·ni ellenırzÈs
+            // Ind√≠t√°s ut√°ni ellen≈ërz√©s
             Loaded += async (s, e) => await InitializeLibraryAsync();
         }
 
-        private async Task InitializeLibraryAsync()
-        {
-            try
-            {
-                // 1. Kˆnyvt·r ellenırzÈse
-                if (!Directory.Exists(RootFolder))
-                {
-                    StatusTextBlock.Text = "Kˆnyvt·r lÈtrehoz·sa...";
-                    Directory.CreateDirectory(RootFolder);
-                }
+		private async Task InitializeLibraryAsync()
+		{
+			try
+			{
+				// K√∂nyvt√°r ellen≈ërz√©se
+				bool isMissing = !Directory.Exists(RootFolder) || Directory.GetFileSystemEntries(RootFolder).Length == 0;
 
-                // 2. Tartalom ellenırzÈse (ha ¸res a mappa, letˆlt¸nk)
-                if (Directory.GetFileSystemEntries(RootFolder).Length == 0)
-                {
-                    var result = MessageBox.Show("A LibrAxon kˆnyvt·r ¸res. SzeretnÈd letˆlteni az ˆsszetevıket?", 
-                        "FrissÌtÈs", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        await DownloadAndExtractAsync();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                StatusTextBlock.Text = "Hiba az inicializ·l·skor.";
-                MessageBox.Show("Hiba: " + ex.Message);
-            }
-        }
+				if (isMissing)
+				{
+					// Ha a k√∂nyvt√°r nem l√©tezik
+					if (!Directory.Exists(RootFolder))
+					{
+						StatusTextBlock.Text = "K√∂nyvt√°r l√©trehoz√°sa...";
+						Directory.CreateDirectory(RootFolder);
+					}
+					// Ha az alapcsomag hi√°nyzik, AKKOR megjelen√≠tj√ºk a gombot a men√ºben
+					DownloadMenuItem.Visibility = Visibility.Visible;
+					StatusTextBlock.Text = "Teljes funkcionalit√°shoz let√∂lt√©s sz√ºks√©ges!";
+				}
+				else
+				{
+					// Ha minden megvan, a gomb rejtve marad
+					DownloadMenuItem.Visibility = Visibility.Collapsed;
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("Hiba az ellen≈ërz√©skor: " + ex.Message);
+			}
+		}
 
         private async Task DownloadAndExtractAsync()
-        {
-            StatusTextBlock.Text = "LetˆltÈs folyamatban...";
-            DownloadProgressBar.Visibility = Visibility.Visible;
-            DownloadProgressBar.IsIndeterminate = true;
+		{
+			DownloadProgressBar.Visibility = Visibility.Visible;
+			DownloadProgressBar.IsIndeterminate = false; // Kikapcsoljuk a v√©gtelen cs√≠kot
+			DownloadProgressBar.Value = 0;
 
-            try
-            {
-                using (var client = new HttpClient())
-                {
-                    // LetˆltÈs
-                    var response = await client.GetAsync(DownloadUrl, HttpCompletionOption.ResponseHeadersRead);
-                    response.EnsureSuccessStatusCode();
+			try
+			{
+				using (var client = new HttpClient())
+				{
+					// 1. LET√ñLT√âS SZ√ÅZAL√âKKAL
+					StatusTextBlock.Text = "Let√∂lt√©s: 0%";
+					var response = await client.GetAsync(DownloadUrl, HttpCompletionOption.ResponseHeadersRead);
+					response.EnsureSuccessStatusCode();
 
-                    using (var stream = await response.Content.ReadAsStreamAsync())
-                    using (var fileStream = new FileStream(TempZipPath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
-                    {
-                        await stream.CopyToAsync(fileStream);
-                    }
-                }
+					var totalBytes = response.Content.Headers.ContentLength;
 
-                StatusTextBlock.Text = "Kicsomagol·s...";
-                DownloadProgressBar.IsIndeterminate = true;
+					using (var stream = await response.Content.ReadAsStreamAsync())
+					using (var fileStream = new FileStream(TempZipPath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
+					{
+						var buffer = new byte[8192];
+						long totalRead = 0;
+						int read;
 
-                // Kicsomagol·s (k¸lˆn sz·lon, hogy ne akadjon az UI)
-                await Task.Run(() => 
-                {
-                    ZipFile.ExtractToDirectory(TempZipPath, RootFolder, true);
-                    File.Delete(TempZipPath); // Ideiglenes f·jl tˆrlÈse
-                });
+						while ((read = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+						{
+							await fileStream.WriteAsync(buffer, 0, read);
+							totalRead += read;
 
-                StatusTextBlock.Text = "Rendszer kÈsz.";
-                MessageBox.Show("Sikeres letˆltÈs Ès kicsomagol·s!", "LibrAxon", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                StatusTextBlock.Text = "Hiba tˆrtÈnt.";
-                MessageBox.Show($"Hiba: {ex.Message}");
-            }
-            finally
-            {
-                DownloadProgressBar.Visibility = Visibility.Collapsed;
-            }
-        }
+							if (totalBytes.HasValue)
+							{
+								double progress = (double)totalRead / totalBytes.Value * 100;
+								DownloadProgressBar.Value = progress;
+								StatusTextBlock.Text = $"Let√∂lt√©s: {Math.Round(progress)}%";
+							}
+						}
+					}
+				}
 
-		void ShowInfo(object s, RoutedEventArgs e)
-			=> MainContent.Content = new InfoView();
+				// 2. KICSOMAGOL√ÅS SZ√ÅZAL√âKKAL
+				StatusTextBlock.Text = "Kicsomagol√°s: 0%";
+				DownloadProgressBar.Value = 0;
 
-        void ShowApps(object s, RoutedEventArgs e)
-            => MainContent.Content = new AppsView();
+				await Task.Run(() =>
+				{
+					using (ZipArchive archive = ZipFile.OpenRead(TempZipPath))
+					{
+						int totalEntries = archive.Entries.Count;
+						int extractedEntries = 0;
 
-        void ShowDrivers(object s, RoutedEventArgs e)
-            => MainContent.Content = new DriversView();
+						foreach (ZipArchiveEntry entry in archive.Entries)
+						{
+							// Teljes el√©r√©si √∫t meghat√°roz√°sa
+							string destinationPath = Path.GetFullPath(Path.Combine(RootFolder, entry.FullName));
 
-        void ShowAbout(object s, RoutedEventArgs e)
-            => MainContent.Content = new AboutView();
+							// Mappa eset√©n l√©trehozzuk
+							if (Path.GetFileName(destinationPath).Length == 0)
+							{
+								Directory.CreateDirectory(destinationPath);
+								extractedEntries++;
+								continue;
+							}
+
+							// F√°jl ki√≠r√°sa (fel√ºl√≠r√°ssal)
+							Directory.CreateDirectory(Path.GetDirectoryName(destinationPath));
+							entry.ExtractToFile(destinationPath, true);
+
+							extractedEntries++;
+
+							// UI friss√≠t√©se
+							double progress = (double)extractedEntries / totalEntries * 100;
+							Dispatcher.Invoke(() =>
+							{
+								DownloadProgressBar.Value = progress;
+								StatusTextBlock.Text = $"Kicsomagol√°s: {Math.Round(progress)}%";
+							});
+						}
+					}
+					File.Delete(TempZipPath);
+				});
+
+				StatusTextBlock.Text = "Rendszer k√©sz.";
+				MessageBox.Show("Sikeres let√∂lt√©s √©s kicsomagol√°s!", "LibrAxon", MessageBoxButton.OK, MessageBoxImage.Information);
+			}
+			catch (Exception ex)
+			{
+				StatusTextBlock.Text = "Hiba t√∂rt√©nt.";
+				MessageBox.Show($"Hiba: {ex.Message}");
+			}
+			finally
+			{
+				DownloadProgressBar.Visibility = Visibility.Collapsed;
+			}
+		}
+		
+		private async void ManualDownload_Click(object sender, RoutedEventArgs e)
+		{
+			// Ellen≈ërizz√ºk, hogy nem fut-e m√°r egy let√∂lt√©s (opcion√°lis, de aj√°nlott)
+			if (DownloadProgressBar.Visibility == Visibility.Visible)
+			{
+				MessageBox.Show("Egy let√∂lt√©s m√°r folyamatban van!", "Inform√°ci√≥", MessageBoxButton.OK, MessageBoxImage.Information);
+				return;
+			}
+
+			var result = MessageBox.Show("Szeretn√©d elind√≠tani a LibrAxon √∂sszetev≈ëk let√∂lt√©s√©t/friss√≠t√©s√©t?", 
+										 "Meger≈ës√≠t√©s", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+			if (result == MessageBoxResult.Yes)
+			{
+				await DownloadAndExtractAsync();
+			}
+		}
+
+		void ShowInfo(object s, RoutedEventArgs e) => MainContent.Content = new InfoView();
+        void ShowApps(object s, RoutedEventArgs e) => MainContent.Content = new AppsView();
+        void ShowDrivers(object s, RoutedEventArgs e) => MainContent.Content = new DriversView();
+        void ShowAbout(object s, RoutedEventArgs e) => MainContent.Content = new AboutView();
 		
 		void Run(string path)
         {
             if (!File.Exists(path))
             {
-                MessageBox.Show("F·jl nem tal·lhatÛ:\n" + path);
+                MessageBox.Show("F√°jl nem tal√°lhat√≥:\n" + path);
                 return;
             }
 

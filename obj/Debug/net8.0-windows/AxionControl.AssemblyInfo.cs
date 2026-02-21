@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AxionControl")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+66f5fec00e0b3d1c447b857a2e9b5347b8859cfd")]
 [assembly: System.Reflection.AssemblyProductAttribute("AxionControl")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AxionControl")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
