@@ -72,10 +72,14 @@
                 </Grid.RowDefinitions>
                 
                 <!-- Felső üdvözlő szöveg -->
-                <TextBlock Grid.Row="0" Text="OPEN FOX PROJEKT - LibrAxon 26.01.25" 
-                         FontSize="24" Foreground="#5DADE2" FontWeight="SemiBold"
-                         HorizontalAlignment="Center" Margin="0,30,0,20"
-                         TextWrapping="Wrap" TextAlignment="Center"/>
+				<TextBlock Grid.Row="0" 
+						   FontSize="24" Foreground="#5DADE2" FontWeight="SemiBold"
+						   HorizontalAlignment="Center" Margin="0,30,0,20"
+						   TextWrapping="Wrap" TextAlignment="Center">
+					<TextBlock.Text>
+						<Binding Path="AppVersion" StringFormat="OPEN FOX PROJEKT - LibrAxon {0}" />
+					</TextBlock.Text>
+				</TextBlock>
                 
                 <!-- Központi tartalom -->
                 <Grid Grid.Row="1">

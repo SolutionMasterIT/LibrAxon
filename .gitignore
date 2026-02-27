@@ -1,5 +1,21 @@
-[Bb]in/
-[Ob]j/
+# Visual Studio ideiglenes fájlok
 .vs/
+[Bb]in/
+bin
+[Ob]j/
+obj
 *.user
 *.suo
+*.sln.docstates
+
+# Build eredmények
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+# ReSharper vagy egyéb kiegészítők
+_ReSharper*/
+*.resharper
+*.opendb
+*.db

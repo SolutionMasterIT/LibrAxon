@@ -1,2 +1,0 @@
-U:\PROJECTS\LibrAxon\bin\Release\net8.0-windows\win-x64\publish\AxionControl.pdb
-U:\PROJECTS\LibrAxon\bin\Release\net8.0-windows\win-x64\publish\AxionControl.exe
